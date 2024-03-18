@@ -20,9 +20,15 @@ for the alignment function in different testing scenarios
 def sp_exact_3(A, B, C, path_to_sc_matrix, gap_cost):
     sc_matrix = initiate_score_matrix(path_to_sc_matrix)
 
-    # Create three dimensional dynamic programming table filled with zeros
+    """
+    Create three dimensional dynamic programming table
+    We fill it out with 'inf', as we are minimizing the score
+    """
     n, m, l = len(A), len(B), len(C)
-    dp = [[[0] * (l + 1) for _ in range(m + 1)] for _ in range(n + 1)]
+    dp = [[[float('inf')] * (l + 1) for _ in range(m + 1)] for _ in range(n + 1)]
+
+    # Set dp[0][0][0] to 0
+    dp[0][0][0] = 0
 
     # Initialize the first layer, row and column of the dp table with gap costs
     for i in range(1, n + 1):
@@ -54,6 +60,7 @@ def sp_exact_3(A, B, C, path_to_sc_matrix, gap_cost):
                 dp[i][j][k] = min(v1, v2, v3, v4, v5, v6, v7)
 
     return dp[n][m][l]
+    
     # Backtracking
     
 
