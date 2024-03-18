@@ -1,17 +1,17 @@
-def read_fasta_file(filename):
+def read_fasta_file(fasta_file):
     sequences = {}
-    with open(filename, 'r') as file:
-        current_sequence_name = None
-        current_sequence = ''
+    with open(fasta_file, 'r') as file:
+        sequence_id = None
+        sequence = ""
         for line in file:
             line = line.strip()
-            if line.startswith('>'):
-                if current_sequence_name is not None:
-                    sequences[current_sequence_name] = current_sequence
-                current_sequence_name = line[1:]
-                current_sequence = ''
+            if line.startswith(">"):
+                if sequence_id:
+                    sequences[sequence_id] = sequence
+                sequence_id = line[1:]
+                sequence = ""
             else:
-                current_sequence += line
-        if current_sequence_name is not None:
-            sequences[current_sequence_name] = current_sequence
+                sequence += line
+        if sequence_id:
+            sequences[sequence_id] = sequence
     return sequences

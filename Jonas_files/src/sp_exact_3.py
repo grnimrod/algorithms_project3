@@ -167,27 +167,28 @@ def main():
     matrix_file = args.matrix
     hide_alignments = args.hide_alignments
 
-
+    # load fasta file with seqs
     sequence_dct = read_fasta_file(fasta_file)
-    print(sequence_dct)
+    
+    sequence_lst = [] # convert dct values to list
+    iterator = iter(sequence_dct.values()) # Extracting the sequences without their corresponding headers and putting them into a list
+    for _ in range(len(sequence_dct)):
+        sequence_lst.append(next(iterator))
 
-    sequence_lst = read_fasta(fasta_file)
+    # load score matrix
     score_matrix = initiate_score_matrix(matrix_file)
-
+    
     seq1 = sequence_lst[0]
     seq2 = sequence_lst[1]
     seq3 = sequence_lst[2]
     
     aligned_sequences = sp_exact_3(seq1, seq2, seq3, gap_cost, score_matrix, hide_alignments = hide_alignments)
 
-    # sep alignment with new lines
-    alignment = '\n'.join(aligned_sequences[0]) 
-
     # print a pretty output
-    #print(f"Alignment:\n{alignment}\n\nOptimal sum-of-pairs score: {aligned_sequences[1]}") 
-
-    for i, obj in enumerate(sequence_lst):
-        print(i, obj)
+    for i, obj in enumerate(sequence_dct):
+        print(f">{obj}\n{aligned_sequences[0][i]}")
+    print(f"\nOptimal sum-of-pairs score: {aligned_sequences[1]}")
+        
 
 if __name__ == "__main__":
     main()
