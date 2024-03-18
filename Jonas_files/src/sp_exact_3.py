@@ -96,7 +96,7 @@ def sp_exact_3(A, B, C, gap_cost, score_matrix, hide_alignments=False):
     score = dp[n][m][l]
 
     if hide_alignments == True:
-        return f"Optimal sum-of-pairs score: {score}"
+        return score
 
     # Backtracking 
     def backtracking(A, B, C, dp, score_matrix, gap_cost):
