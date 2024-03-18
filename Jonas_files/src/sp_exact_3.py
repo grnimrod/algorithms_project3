@@ -2,6 +2,7 @@
 # Import helper functions
 from msa_sp_score_3k import *
 from score_matrix import initiate_score_matrix
+from read_fasta import read_fasta_file
 
 import argparse
 #################
@@ -154,10 +155,8 @@ def sp_exact_3(A, B, C, gap_cost, score_matrix, hide_alignments=False):
         alignment_rows[2].append(c)
 
     joined_strings = [''.join(alignment) for alignment in alignment_rows] # join the strings
-    alignment = '\n'.join(joined_strings) # sep with new lines
     
-    output = f"Alignment:\n{alignment}\n\nOptimal sum-of-pairs score: {score}" # make pretty output
-    return output
+    return [joined_strings, score]
 
 
 # Main collection of functions and argument parses
@@ -168,6 +167,10 @@ def main():
     matrix_file = args.matrix
     hide_alignments = args.hide_alignments
 
+
+    sequence_dct = read_fasta_file(fasta_file)
+    print(sequence_dct)
+
     sequence_lst = read_fasta(fasta_file)
     score_matrix = initiate_score_matrix(matrix_file)
 
@@ -176,7 +179,15 @@ def main():
     seq3 = sequence_lst[2]
     
     aligned_sequences = sp_exact_3(seq1, seq2, seq3, gap_cost, score_matrix, hide_alignments = hide_alignments)
-    print(aligned_sequences)
+
+    # sep alignment with new lines
+    alignment = '\n'.join(aligned_sequences[0]) 
+
+    # print a pretty output
+    #print(f"Alignment:\n{alignment}\n\nOptimal sum-of-pairs score: {aligned_sequences[1]}") 
+
+    for i, obj in enumerate(sequence_lst):
+        print(i, obj)
 
 if __name__ == "__main__":
     main()
