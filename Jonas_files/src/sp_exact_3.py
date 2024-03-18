@@ -174,7 +174,7 @@ def main():
     seq1 = sequence_lst[0]
     seq2 = sequence_lst[1]
     seq3 = sequence_lst[2]
-
+    
     aligned_sequences = sp_exact_3(seq1, seq2, seq3, gap_cost, score_matrix, hide_alignments = hide_alignments)
     print(aligned_sequences)
 
